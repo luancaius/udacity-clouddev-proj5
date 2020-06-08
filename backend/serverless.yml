@@ -37,9 +37,6 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
-  tracing:
-    apiGateway: true
-    lambda: true
   environment:
     EVENT_TABLE: Events-${self:provider.stage}
     EVENT_LOCAL_INDEX: EventLocalIndex

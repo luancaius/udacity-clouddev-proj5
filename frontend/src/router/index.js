@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue";
+import EventPage from "../views/EventPage";
 import { authGuard } from "../auth";
 
 Vue.use(Router);
@@ -14,6 +15,12 @@ const router = new Router({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/event",
+      name: "event",
+      component: EventPage,
+      beforeEnter: authGuard
     },
     {
       path: "/profile",

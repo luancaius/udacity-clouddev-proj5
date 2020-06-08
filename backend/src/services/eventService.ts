@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import * as AWS from 'aws-sdk';
-import * as AWSXRay from 'aws-xray-sdk'
+//import * as AWSXRay from 'aws-xray-sdk'
 import { EventItem } from '../models/EventItem';
 import { UpdateEventRequest } from '../requests/UpdateEventRequest';
 
@@ -14,7 +14,8 @@ export class EventService {
     constructor() {
         console.log('inside todo service - ctor');
 
-        this.XAWS = AWSXRay.captureAWS(AWS)
+        this.XAWS = AWS
+        //this.XAWS = AWSXRay.captureAWS(AWS)
         this.docClient = this.createDynamoDBClient()
         this.eventsTable = process.env.EVENT_TABLE
         this.globalIndexEvent = process.env.EVENT_GLOBAL_INDEX

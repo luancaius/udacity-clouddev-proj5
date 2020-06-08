@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "group",
+    "type": "object",
+    "properties": {
+        "groupId": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string"
+        },
+        "value": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "groupId",
+        "date",
+        "value"
+    ],
+    "additionalProperties": false
+}

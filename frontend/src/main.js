@@ -8,6 +8,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId } from "../auth_config.json";
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
 
@@ -30,5 +31,6 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({
   router,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");

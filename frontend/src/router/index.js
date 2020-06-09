@@ -17,8 +17,8 @@ const router = new Router({
       component: Home
     },
     {
-      path: "/event",
-      name: "event",
+      path: "/events",
+      name: "events",
       component: EventPage,
       beforeEnter: authGuard
     },

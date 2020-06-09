@@ -59,9 +59,10 @@ export class EventService {
                 ':value': updateEvent.value,
             },
             ExpressionAttributeNames: {
-                "#attrName": "date",
+                "#attrDate": "date",
+                "#attrValue": "value",
             },
-            UpdateExpression: 'SET #attrName=:date, value=:value',
+            UpdateExpression: 'SET #attrDate=:date, #attrValue=:value',
             ReturnValues: 'ALL_NEW'
         }).promise();
     }

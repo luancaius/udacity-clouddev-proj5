@@ -4,7 +4,7 @@ import { getUserId } from "../utils";
 import { EventService } from '../../services/eventService';
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const eventId = event.pathParameters.todoId
+  const eventId = event.pathParameters.eventId
 
   const userId = getUserId(event)
 

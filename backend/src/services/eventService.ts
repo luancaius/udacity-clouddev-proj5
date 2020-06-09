@@ -12,7 +12,7 @@ export class EventService {
     docClient: any;
     localIndex: string
     constructor() {
-        console.log('inside todo service - ctor');
+        console.log('inside event service - ctor');
 
         this.XAWS = AWS
         //this.XAWS = AWSXRay.captureAWS(AWS)
@@ -23,7 +23,7 @@ export class EventService {
     }
 
     async getItems(userId: string): Promise<EventItem> {
-        console.log('inside todo service - getItem');
+        console.log('inside event service - getItem');
 
         const result = await this.docClient.query({
             TableName: this.eventsTable,
@@ -58,7 +58,10 @@ export class EventService {
                 ':date': updateEvent.date,
                 ':value': updateEvent.value,
             },
-            UpdateExpression: 'SET date=:date, value=:value',
+            ExpressionAttributeNames: {
+                "#attrName": "date",
+            },
+            UpdateExpression: 'SET #attrName=:date, value=:value',
             ReturnValues: 'ALL_NEW'
         }).promise();
     }

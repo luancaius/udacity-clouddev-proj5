@@ -7,21 +7,21 @@ import { getUserId } from "../utils"
 import { EventService } from '../../services/eventService'
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const todoId = event.pathParameters.todoId
-  const updatedTodo: UpdateEventRequest = JSON.parse(event.body)
+  const eventId = event.pathParameters.eventId
+  const updatedItem: UpdateEventRequest = JSON.parse(event.body)
   const timestamp = new Date().toISOString();
 
   const userId = getUserId(event)
 
   const newItem = {
-    todoId,
+    eventId,
     userId,
     timestamp,
-    ...updatedTodo
+    ...updatedItem
   }
 
   const service = new EventService();
-  await service.updateItem(userId, todoId, updatedTodo)
+  await service.updateItem(userId, eventId, updatedItem)
 
   return {
     statusCode: 200,

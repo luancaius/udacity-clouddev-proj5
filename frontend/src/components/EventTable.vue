@@ -10,9 +10,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in eventsObj" :key="item.eventId">
+        <tr v-for="item in events" :key="item.eventId">
           <td>{{ item.eventId }}</td>
-          <td>{{ item.groupName }}</td>
+          <td>{{ item.groupId }}</td>
           <td>{{ item.date }}</td>
           <td>{{ item.value }}</td>
         </tr>
@@ -24,13 +24,11 @@
 <script>
 export default {
   name: "EventTable",
-  data() {
-    return {
-      eventId: "",
-      groupName: "",
-      date: "",
-      value: ""
-    };
+  props: {
+    events: {
+      type: Array,
+      default: () => []
+    }
   }
 };
 </script>

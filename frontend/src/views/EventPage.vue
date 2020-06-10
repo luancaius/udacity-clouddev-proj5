@@ -10,7 +10,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <EventTable></EventTable>
+        <EventTable :events="events"></EventTable>
       </v-col>
     </v-row>
   </v-container>
@@ -18,14 +18,35 @@
 
 <script>
 import EventTable from "../components/EventTable";
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "EventPage",
   components: {
     EventTable
   },
-  created() {}
+  data() {
+    return {
+      events: []
+    };
+  },
+  async created() {
+    const userId = this.$auth.user.sub;
+    const claims = await this.$auth.getIdTokenClaims();
+    const token = claims.__raw;
+    console.log(token);
+
+    await this.getEventsAction({ userId, token });
+    console.log("EventPage getEventsAction");
+
+    this.events = this.eventObj.events;
+    console.log(this.events);
+  },
+  computed: {
+    ...mapState(["eventObj"])
+  },
+  methods: {
+    ...mapActions("eventObj", ["getEventsAction", "saveEventAction"])
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

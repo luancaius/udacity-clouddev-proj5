@@ -7,11 +7,12 @@ import HighlightJs from "./directives/highlight";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { domain, clientId } from "../auth_config.json";
 import vuetify from './plugins/vuetify';
 import store from './store'
 
 Vue.config.productionTip = false;
+const domain = process.env.AUTH0_DOMAIN
+const clientId = process.env.AUTH0_CLIENTID
 
 Vue.use(Auth0Plugin, {
   domain,

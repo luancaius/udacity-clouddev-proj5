@@ -11,8 +11,9 @@ import vuetify from './plugins/vuetify';
 import store from './store'
 
 Vue.config.productionTip = false;
-const domain = process.env.AUTH0_DOMAIN
-const clientId = process.env.AUTH0_CLIENTID
+
+const domain = process.env.VUE_APP_DOMAIN
+const clientId = process.env.VUE_APP_CLIENTID
 
 Vue.use(Auth0Plugin, {
   domain,

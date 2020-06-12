@@ -38,7 +38,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   environment:
-    EVENT_TABLE: Events-${self:provider.stage}
+    EVENT_TABLE: Diary-Events-${self:provider.stage}
     EVENT_LOCAL_INDEX: EventLocalIndex
     EVENT_GLOBAL_INDEX: EventGlobalIndex
   tracing:

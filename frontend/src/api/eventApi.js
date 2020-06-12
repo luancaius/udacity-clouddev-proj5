@@ -41,7 +41,8 @@ const updateEvent = async function (eventObj, token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     try {
-        await axios.patch(`${API}/events/${eventId}`, eventObj);
+        const result = await axios.patch(`${API}/events/${eventObj.eventId}`, eventObj);
+        return result.data.newItem;
     } catch (error) {
         console.error(error);
         return {};

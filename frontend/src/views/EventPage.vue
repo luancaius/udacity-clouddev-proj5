@@ -1,14 +1,21 @@
 <template>
   <v-container>
     <v-row>
-      <v-col xs="10">
+      <v-col cols="10">
         <h1>Events:</h1>
       </v-col>
-      <v-col xs="2">
-        <v-row justify="center">
+      <v-col cols="2">
+        <v-row justify="end">
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark v-bind="attrs" v-on="on">New Item</v-btn>
+              <v-btn
+                color="primary"
+                class="mr-3"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="setDefault"
+              >New Item</v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -31,7 +38,14 @@
                       <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field label="groupId" v-model="groupId" type="text" required></v-text-field>
+                      <v-select
+                        :items="groups"
+                        item-text="name"
+                        item-value="id"
+                        v-model="groupId"
+                        label="Group"
+                        solo
+                      ></v-select>
                     </v-col>
                     <v-col cols="12">
                       <v-text-field label="value" v-model="value" type="text" required></v-text-field>
@@ -41,7 +55,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                <v-btn color="blue darken-1" text @click="closeDialog">Close</v-btn>
                 <v-btn color="blue darken-1" text @click="saveForm">Save</v-btn>
               </v-card-actions>
             </v-card>
@@ -51,7 +65,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <EventTable :events="events" @deleteItem="deleteItem"></EventTable>
+        <EventTable :events="events" :groups="groups" @deleteItem="deleteItem" @editItem="editItem"></EventTable>
       </v-col>
     </v-row>
   </v-container>
@@ -69,10 +83,12 @@ export default {
   data() {
     return {
       events: [],
+      groups: [],
       dialog: false,
-      date: new Date().toISOString().substr(0, 10),
+      date: "",
       groupId: "",
-      value: ""
+      value: "",
+      eventId: ""
     };
   },
   async created() {
@@ -80,19 +96,24 @@ export default {
     const token = claims.__raw;
     console.log(token);
 
-    await this.getEventsAction({ token });
+    this.getGroupsAction();
+    this.groups = this.group.groups;
 
+    await this.getEventsAction({ token });
     this.events = this.eventObj.events;
+    this.resync();
   },
   computed: {
-    ...mapState(["eventObj"])
+    ...mapState(["eventObj", "group"])
   },
   methods: {
     ...mapActions("eventObj", [
       "getEventsAction",
       "saveEventAction",
-      "deleteEventAction"
+      "deleteEventAction",
+      "updateEventAction"
     ]),
+    ...mapActions("group", ["getGroupsAction"]),
     async saveForm() {
       var item = {
         date: this.date,
@@ -101,7 +122,19 @@ export default {
       };
       const claims = await this.$auth.getIdTokenClaims();
       const token = claims.__raw;
-      await this.saveEventAction({ item, token });
+
+      const eventId = this.eventId;
+      if (eventId) {
+        const updatedItem = { eventId, ...item };
+
+        await this.updateEventAction({ updatedItem, token });
+      } else {
+        await this.saveEventAction({ item, token });
+      }
+      this.clearDialog();
+      this.events = this.eventObj.events;
+      this.resync();
+
       this.dialog = false;
     },
     async deleteItem(item) {
@@ -109,6 +142,34 @@ export default {
       const token = claims.__raw;
       await this.deleteEventAction({ eventId: item.eventId, token });
       this.events = this.eventObj.events;
+    },
+    async editItem(item) {
+      this.eventId = item.eventId;
+      this.date = item.date;
+      this.groupId = item.groupId;
+      this.value = item.value;
+      this.dialog = true;
+    },
+    setDefault() {
+      this.groupId = 1;
+      this.date = new Date().toISOString().substr(0, 10);
+    },
+    clearDialog() {
+      this.eventId = "";
+      this.date = "";
+      this.groupId = "";
+      this.value = "";
+    },
+    closeDialog() {
+      this.clearDialog();
+      this.dialog = false;
+    },
+
+    resync() {
+      const g = this.groups;
+      this.events.forEach(element => {
+        element["groupName"] = g.find(a => a.id == element["groupId"]).name;
+      });
     }
   }
 };

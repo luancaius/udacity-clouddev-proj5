@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const newItem = {
     eventId,
     userId,
-    timestamp,
+    createdAt: timestamp,
     ...updatedItem
   }
 

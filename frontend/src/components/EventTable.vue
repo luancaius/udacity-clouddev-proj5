@@ -10,7 +10,7 @@
                   <v-text-field v-model="editedItem.eventId" label="Event Id"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="editedItem.groupId" label="Group Id"></v-text-field>
+                  <v-text-field v-model="editedItem.groupName" label="Group Name"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="editedItem.date" label="Date"></v-text-field>
@@ -50,7 +50,7 @@ export default {
           sortable: false,
           value: "eventId"
         },
-        { text: "Group Id", value: "groupId" },
+        { text: "Group Name", value: "groupName" },
         { text: "Date", value: "date" },
         { text: "Value", value: "value" },
         { text: "Actions", value: "actions", sortable: false }
@@ -67,7 +67,9 @@ export default {
     async deleteItem(item) {
       this.$emit("deleteItem", item);
     },
-    editItem(item) {}
+    editItem(item) {
+      this.$emit("editItem", item);
+    }
   }
 };
 </script>

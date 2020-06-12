@@ -39,9 +39,9 @@ const actions = {
     await eventApi.deleteEvent(eventId, token);
     commit(DELETE_EVENT, eventId);
   },
-  async updateEventAction({ commit }, { item, token }) {
-    const updatedItem = await eventApi.updateEvent(item, token);
-    commit(UPDATE_EVENT, updatedItem);
+  async updateEventAction({ commit }, { updatedItem, token }) {
+    const result = await eventApi.updateEvent(updatedItem, token);
+    commit(UPDATE_EVENT, result);
   },
 };
 

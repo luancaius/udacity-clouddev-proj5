@@ -94,6 +94,7 @@ export default {
   async created() {
     const claims = await this.$auth.getIdTokenClaims();
     const token = claims.__raw;
+    // eslint-disable-next-line
     console.log(token);
 
     this.getGroupsAction();

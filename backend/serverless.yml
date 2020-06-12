@@ -1,5 +1,5 @@
 service:
-  name: serverless-diary-luan
+  name: serverless-proj5-luan
 
 plugins:
   - serverless-webpack

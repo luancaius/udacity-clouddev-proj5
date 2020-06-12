@@ -7,4 +7,6 @@ cache:
 script:
   - npm install -g serverless
   - cd backend
+  - pwd
+  - npm i
   - sls deploy

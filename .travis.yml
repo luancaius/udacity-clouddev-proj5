@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo "nothing to be installed"
+
+before_scripts:
+  - echo "no tests"
+
+scripts:
+  - cd frontend/
+  - npm install
+  - npm run build
+  - npm run deploy

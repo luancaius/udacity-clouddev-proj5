@@ -1,5 +1,5 @@
 service:
-  name: serverless-dairy-luan
+  name: serverless-diary-luan
 
 plugins:
   - serverless-webpack
@@ -41,6 +41,15 @@ provider:
     EVENT_TABLE: Events-${self:provider.stage}
     EVENT_LOCAL_INDEX: EventLocalIndex
     EVENT_GLOBAL_INDEX: EventGlobalIndex
+  tracing:
+    apiGateway: true
+    lambda: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - xray:PutTelemetryRecords
+        - xray:PutTraceSegments
+      Resource: "*"
 
 functions:
   AuthRS256:

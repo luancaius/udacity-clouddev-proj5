@@ -12,8 +12,8 @@ import store from './store'
 
 Vue.config.productionTip = false;
 
-const domain = process.env.VUE_APP_DOMAIN
-const clientId = process.env.VUE_APP_CLIENTID
+const domain = 'luan-test.auth0.com'
+const clientId = 'y3CjMb3d0AVnXENYMJv7o4qk8PyJfzCk'
 
 Vue.use(Auth0Plugin, {
   domain,

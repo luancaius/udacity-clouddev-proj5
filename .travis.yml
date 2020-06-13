@@ -1,12 +1,23 @@
 language: node_js
 node_js:
-  - node
-cache:
-  directories:
-    - node_modules
-script:
-  - npm install -g serverless
-  - cd backend
-  - pwd
-  - npm i
-  - sls deploy
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo "nothing to be installed"
+
+before_scripts:
+  - echo "no tests"
+
+scripts:
+  - docker --version
+  - docker build -t diary ./frontend/
+  - docker tag diary luancaius/diary:latest
+
+after_success:
+  - echo "using login for $DOCKER_USERNAME"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push luancaius/diary:latest
+  - echo "Finished pushing image"

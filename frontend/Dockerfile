@@ -27,10 +27,6 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json .
 COPY --from=build /app/web-server.js .
 
-ENV NODE_ENV production
-
-RUN npm install --production
-
 EXPOSE 3000
 
 CMD ["node", "web-server.js"]

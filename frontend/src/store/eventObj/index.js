@@ -13,8 +13,9 @@ const mutations = {
   [GET_EVENTS](state, events) {
     state.events = events;
   },
-  [SAVE_EVENT](state, result) {
-    state.events.push(result);
+  [SAVE_EVENT](state, { item, g }) {
+    item["groupName"] = g.find(a => a.id == item.groupId).name;
+    state.events.push(item);
   },
   [DELETE_EVENT](state, eventId) {
     state.events = [...state.events.filter(p => p.eventId !== eventId)];
@@ -31,9 +32,9 @@ const actions = {
     const events = await eventApi.getEvents(token);
     commit(GET_EVENTS, events);
   },
-  async saveEventAction({ commit }, { item, token }) {
+  async saveEventAction({ commit }, { item, g, token }) {
     const result = await eventApi.saveEvent(item, token);
-    commit(SAVE_EVENT, result.item);
+    commit(SAVE_EVENT, { item: result.item, g });
   },
   async deleteEventAction({ commit }, { eventId, token }) {
     await eventApi.deleteEvent(eventId, token);

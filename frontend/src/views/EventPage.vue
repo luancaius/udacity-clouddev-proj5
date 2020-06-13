@@ -127,14 +127,14 @@ export default {
       const eventId = this.eventId;
       if (eventId) {
         const updatedItem = { eventId, ...item };
-
         await this.updateEventAction({ updatedItem, token });
+        this.events = this.eventObj.events;
+        this.resync();
       } else {
-        await this.saveEventAction({ item, token });
+        const g = this.groups;
+        await this.saveEventAction({ item, g, token });
       }
       this.clearDialog();
-      this.events = this.eventObj.events;
-      this.resync();
 
       this.dialog = false;
     },
